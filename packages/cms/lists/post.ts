@@ -370,6 +370,17 @@ const listConfigurations = list({
         listView: { fieldMode: 'hidden' },
       },
     }),
+    revisions: text({
+      label: 'Revision',
+      ui: {
+        views: './lists/views/revisions',
+        createView: { fieldMode: 'hidden' },
+        itemView: {
+          fieldPosition: 'sidebar',
+        },
+        listView: { fieldMode: 'hidden' },
+      },
+    }),
   },
   ui: {
     label: 'Posts（文章）',
@@ -512,6 +523,14 @@ const listConfigurations = list({
       })
 
       return resolvedData
+    },
+    // validateInput: async () => {},
+    // save to localStorage => show in post page
+    // psuedo code: before op: make diff => save to db(localstorage) =>
+    beforeOperation: async ({ operation, item, inputData }) => {
+      Object.keys(inputData).forEach((key) => {
+        console.log('beforeOperation', operation, item[key], inputData[key])
+      })
     },
   },
 })

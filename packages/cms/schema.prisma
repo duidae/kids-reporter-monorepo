@@ -63,6 +63,7 @@ model Post {
   updatedBy                                  User?                @relation("Post_updatedBy", fields: [updatedById], references: [id])
   updatedById                                Int?                 @map("updatedBy")
   onlineUsers                                User[]               @relation("Post_onlineUsers")
+  revisions                                  String               @default("")
   from_Post_relatedPosts                     Post[]               @relation("Post_relatedPosts")
   from_EditorPicksSetting_editorPicksOfPosts EditorPicksSetting[] @relation("EditorPicksSetting_editorPicksOfPosts")
 
