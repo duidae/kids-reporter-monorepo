@@ -29,6 +29,10 @@ export function createPreviewMiniApp({
     res.redirect(`/signin?from=${encodeURIComponent(originUrl)}`)
   }
 
+  // TODO: handle here
+  // /api/draft?secret=${envVars.previewSecret}&type=topic&slug=${item.slug}
+  // change PREVIEW_SERVER_ORIGIN to https://kids.twreporter.org/api/draft?type=topic&slug=${item.slug}
+  // & handle preview token in header
   const previewProxyMiddleware = createProxyMiddleware({
     target: previewServer.origin,
     changeOrigin: true,

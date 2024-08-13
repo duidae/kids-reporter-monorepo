@@ -1,8 +1,11 @@
-import { draftMode } from 'next/headers'
+import { draftMode, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PREVIEW_SECRET, ContentType } from '@/app/constants'
 
 export async function GET(request: Request) {
+  const headersList = headers()
+  // const secret = headersList.get('secret')
+  console.log(headersList.get('secret'))
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const type = searchParams.get('type')
