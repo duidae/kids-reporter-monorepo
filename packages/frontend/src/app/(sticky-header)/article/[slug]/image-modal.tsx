@@ -37,6 +37,7 @@ const CrossIconPosCss = (position: CrossIconPos) => {
 export const ImageModal = (props: {
   isOpen: boolean
   imgProps: React.ImgHTMLAttributes<HTMLImageElement>
+  images: HTMLCollection | undefined
   handleImgModalClose: () => void
 }) => {
   const { isOpen, imgProps, handleImgModalClose } = props

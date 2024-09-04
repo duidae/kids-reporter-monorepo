@@ -25,6 +25,8 @@ export const PostRenderer = (props: PostProp) => {
   const observerRef = useRef<IntersectionObserver | null>(null)
   const firstAnchorIDRef = useRef<string | null>(null)
   const prevAnchorIDRef = useRef<string | null>(null)
+  const { fontSize, handleCollectImgs, handleImgModalOpen } =
+    useArticleContext()
 
   useEffect(() => {
     setIsMounted(true)
@@ -83,6 +85,11 @@ export const PostRenderer = (props: PostProp) => {
   }, [])
 
   useEffect(() => {
+    const imgs = document.getElementsByTagName('img')
+    handleCollectImgs(imgs)
+  }, [])
+
+  useEffect(() => {
     const anchors = document.querySelectorAll(`[id^="${tocAnchorPrefix}-"]`)
     anchors?.forEach((anchor, index) => {
       if (index === 0) {
@@ -94,7 +101,6 @@ export const PostRenderer = (props: PostProp) => {
 
   const content = props.post?.content
   const theme = props.theme
-  const { fontSize, handleImgModalOpen } = useArticleContext()
 
   return isMounted && content && theme ? (
     <ArticleBodyDraftRenderer

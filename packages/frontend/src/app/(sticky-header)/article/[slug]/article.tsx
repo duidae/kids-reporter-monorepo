@@ -168,6 +168,11 @@ export const Article = ({ post }: { post: any }) => {
     document.body.classList.remove('no-scroll')
   }
 
+  const [images, setImages] = useState<HTMLCollection | undefined>(undefined)
+  const handleCollectImgs = (imgs: HTMLCollection | undefined) => {
+    setImages(imgs)
+  }
+
   const topicBreadCrumb = topicURL && (
     <div className="topic-breadcrumb">
       <Link className="text-sm md:text-base lg:text-lg" href={topicURL}>
@@ -198,9 +203,11 @@ export const Article = ({ post }: { post: any }) => {
         <ArticleContext.Provider
           value={{
             fontSize,
+            images,
             onFontSizeChange,
             handleImgModalOpen,
             handleImgModalClose,
+            handleCollectImgs,
           }}
         >
           <Sidebar topicURL={topicURL} />
@@ -209,6 +216,7 @@ export const Article = ({ post }: { post: any }) => {
           <ImageModal
             isOpen={isImgModalOpen}
             imgProps={imgProps}
+            images={images}
             handleImgModalClose={handleImgModalClose}
           />
           <HeroImage
