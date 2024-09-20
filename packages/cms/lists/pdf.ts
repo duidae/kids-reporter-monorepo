@@ -35,7 +35,7 @@ const listConfigurations = list({
           const pdfLink = `${config.googleCloudStorage.origin}/files/${filename}`
           const downloadLink = `${pdfLink}?download=true`
           const title = item.name
-          const code = `<iframe src="${pdfLink}#toolbar=0" width="100%" height="480" allow="autoplay" style="margin-bottom: 27px;"></iframe>
+          const code = `<iframe sandbox="allow-scripts allow-same-origin" src="https://docs.google.com/viewerng/viewer?url=${pdfLink}&embedded=true" width="100%" height="480" allow="autoplay" style="margin-bottom: 27px;"></iframe>
           <div style="display: flex; align-items: center; justify-content: center; gap:11px;">
             <span style="font-size: 16px; color: #27B5F7;">▶ ${title}</span>
             <a href=${downloadLink} download style="text-decoration: none;">
