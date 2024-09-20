@@ -2,6 +2,7 @@ import { promises as fs } from 'fs'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { ContentType, PREVIEW_SECRET_PATH } from '@/app/constants'
+import { isProduction } from '@/environment-variables'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -27,7 +28,7 @@ export async function GET(request: Request) {
   }
 
   draftMode().enable()
-  const path = `/${type}/${slug}`
+  const path = `/${type}/${slug}${!isProduction ? '?isPreview=true' : ''}`
   console.log('Redirect for preview to', path)
   redirect(path)
 }

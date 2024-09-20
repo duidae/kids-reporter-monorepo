@@ -130,7 +130,7 @@ export async function generateMetadata({
 }
 
 // TODO: maybe we could try apollo-client pkg
-const getTopic = async (slug: string) => {
+const getTopic = async (slug: string, isPreview: boolean) => {
   const data = {
     query,
     variables: {
@@ -144,7 +144,7 @@ const getTopic = async (slug: string) => {
   // Note: createProxyMiddleware will remove all cookies when the request is cross origin & different sub domain
   // during redirect, so in non-prod mode we need workaround to bypass draft mode as below.
   // ref: https://nextjs.org/docs/app/building-your-application/configuring/draft-mode
-  if ((isProduction && isEnabled) || !isProduction) {
+  if ((isProduction && isEnabled) || (!isProduction && isPreview)) {
     console.log('Get preview topic', slug)
     let secretValue
     try {
@@ -166,8 +166,10 @@ const getTopic = async (slug: string) => {
 
 export default async function TopicPage({
   params,
+  searchParams,
 }: {
   params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const slug = params.slug
   if (!slug) {
@@ -175,7 +177,7 @@ export default async function TopicPage({
     notFound()
   }
 
-  const projectRes = await getTopic(slug)
+  const projectRes = await getTopic(slug, searchParams?.isPreview === 'true')
   const project = projectRes?.data?.data?.project
   if (!project) {
     log(LogLevel.WARNING, 'Empty topic!')

@@ -168,7 +168,7 @@ export async function generateMetadata({
   }
 }
 
-const getPost = async (slug: string) => {
+const getPost = async (slug: string, isPreview: boolean) => {
   const data = {
     query: postGQL,
     variables: {
@@ -189,7 +189,7 @@ const getPost = async (slug: string) => {
   // Note: createProxyMiddleware will remove all cookies when the request is cross origin & different sub domain
   // during redirect, so in non-prod mode we need workaround to bypass draft mode as below.
   // ref: https://nextjs.org/docs/app/building-your-application/configuring/draft-mode
-  if ((isProduction && isEnabled) || !isProduction) {
+  if ((isProduction && isEnabled) || (!isProduction && isPreview)) {
     console.log('Get preview post', slug)
     let secretValue
     try {
@@ -211,8 +211,10 @@ const getPost = async (slug: string) => {
 
 export default async function PostPage({
   params,
+  searchParams,
 }: {
   params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const slug = params.slug
   if (!slug) {
@@ -220,7 +222,7 @@ export default async function PostPage({
     notFound()
   }
 
-  const postRes = await getPost(slug)
+  const postRes = await getPost(slug, searchParams?.isPreview === 'true')
   const post = postRes?.data?.data?.post
   if (!post) {
     log(LogLevel.WARNING, `Post not found! ${slug}`)
